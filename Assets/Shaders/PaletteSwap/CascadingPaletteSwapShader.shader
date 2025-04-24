@@ -298,5 +298,5 @@ Shader "Unlit/PaletteShadowCascadingShader"
         }
     }
 
-CustomEditor "PaletteSwap"
+CustomEditor "TexelShader"
 }

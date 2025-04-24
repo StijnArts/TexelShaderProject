@@ -193,7 +193,6 @@ struct Varyings
     #ifdef USE_APV_PROBE_OCCLUSION
     float4 probeOcclusion : TEXCOORD10;
     #endif
-    // float4 edgePositionCS : TEXCOORD9;
     float2 uvSS   : TEXCOORD4;
     float4 positionCS : SV_POSITION;
     UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -323,11 +322,6 @@ struct Varyings
                 #endif
 
                 output.positionCS = vertexInput.positionCS;
-                output.uvSS = ComputeScreenPos(output.positionCS);
-                // float4 pos = GetFullScreenTriangleVertexPosition(input.vertexID);
-                // float2 uv  = GetFullScreenTriangleTexCoord(input.vertexID);
-                // output.edgePositionCS = pos;
-                // output.edgeUv = DYNAMIC_SCALING_APPLY_SCALEBIAS(uv);
                 return output;
             }
             void InitializeBakedGIData(Varyings input, inout InputData inputData)

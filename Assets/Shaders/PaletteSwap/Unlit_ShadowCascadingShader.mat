@@ -28,6 +28,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 16c2ae348b833524d83e688de0f1398b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 76bfc2b04616f04408e664416d5eee78, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 4.5, y: 0.68}
@@ -36,8 +44,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 76bfc2b04616f04408e664416d5eee78, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _PaletteTex:
         m_Texture: {fileID: 2800000, guid: 2462814ce11e58649b0ca934a417e473, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 2800000, guid: 76bfc2b04616f04408e664416d5eee78, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TargetPaletteTex:
@@ -64,9 +80,12 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _Brightness: 0
+    - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorOffset: 0
     - _Cull: 2
+    - _DetailNormalMapScale: 1
     - _DoHighlights: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
@@ -78,6 +97,7 @@ Material:
     - _GlossyReflections: 0
     - _HighlightSize: 0.99
     - _PaletteLength: 6
+    - _Parallax: 0.005
     - _SecondShade: -0.15
     - _SecondShadeTransitionSoftness: 0
     - _ShadowBlendAmount: 0
