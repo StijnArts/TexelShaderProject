@@ -10,8 +10,8 @@ Shader "Unlit/PaletteShadowCascadingShader"
         _TargetPaletteTex("Target Palette", 2D) = "white" {}
         _PaletteLength("Palette Length", Float) = 8
         _ColorOffset("Color Offset", Range(-1,0)) = -.5
-        _DitherScale ("Dither Noise Scale", Range(0,100)) = 20.0
-        _DitherStrength ("Dither Strength", Float) = 0.05
+        _DitherScale ("Dither Noise Scale", Range(0,1)) = 1.0
+        _DitherStrength ("Dither Strength", Range(0,1)) = 0.05
         [HideInInspector]_Tolerance("Tolerance", Range(0, 1)) = 0.1
         [Toggle] _UseColor("Use Color instead? ", Float) = 0
         [MainColor] _BaseColor("Color", Color) = (1,1,1,1)

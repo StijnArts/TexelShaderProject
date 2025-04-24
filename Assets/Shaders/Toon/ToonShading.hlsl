@@ -134,26 +134,62 @@ float4 GetBaseShadingColor(float NdotL, float2 uv)
     return color;
 }
 
-float4 GetPaletteBaseShadingColor(Light mainLight, float toonLevel, float2 uv, half specular)
+float RandomFromSeed(float2 seed, float min, float max)
 {
-    float4 col = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv);
+    float2 texelWorldSize = _BaseMap_TexelSize.xy;
+    float2 snapped = floor(seed / texelWorldSize) * texelWorldSize;
+    float randomno =  frac(sin(dot(snapped, float2(12.9898, 78.233)))*43758.5453);
+    return lerp(min, max, randomno);
+}
 
+float4 GetPaletteBaseShadingColor(InputData inputData, Light mainLight, float toonLevel, float2 uv, half specular)
+{
+    float2 worldPos = inputData.positionWS.yz;
+
+    // Define size of your "pixel grid" in world units
+
+    // Snap world position to nearest grid cell
+
+    // Feed snapped position into noise
+    // float noise = RandomFromSeed(worldPos, 0, _TargetPaletteTex_TexelSize.y);
+
+    // return float4(noise.xxx, 1);
+            // return half4(noise.xxx, 1);
+    
+    // return half4(inputData.positionWS.xz, 1,1 );
+    // if (toonLevel <= 0) return float4(1, 0.0f, 0.0f, 1);
+    // else return float4(0, 1.0f, 0.0f, 1.0f);
+    float4 col = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv);
     [loop]
-    for (int i = 0; i < _PaletteLength; i++)
+    for (int i = 0; i < _TargetPaletteTex_TexelSize.z; i++)
     {
         if (i >= (int)_PaletteLength) return float4(0,1,0,1);
-
+        // return float4(inputData.positionWS.xyz, 1);
         float texelWidth = _TargetPaletteTex_TexelSize.x;
         float u = (i + 0.5) * texelWidth;
 
         float4 srcCol = SAMPLE_TEXTURE2D(_PaletteTex, sampler_PaletteTex, float2(u, 0.5));
         if (all(abs(col.rgb - srcCol.rgb) < 0.001))
         {
-            float lighting = toonLevel + _ColorOffset;
+            float lighting = saturate((toonLevel + 1.0+ _ColorOffset) * 0.5);
+            // return lighting;
             float texelHeight = _TargetPaletteTex_TexelSize.y;
-
-            lighting = saturate((lighting + 1.0) * 0.5);
-            float4 color = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, lighting));
+            // float normalizedLighting = saturate((lighting + 1.0) * 0.5); // [-1,1] -> [0,1]
+            // float row = max(0.000001,lighting) / texelHeight;
+            // float darkerRow = row+texelHeight;
+            // float distanceToRow = abs(row - lighting);
+            // return float4(row, 0,0,1);
+            float totalRows = 1.0 / texelHeight;
+            float rowFloat = lighting * (totalRows);
+            float rowIndex = floor(rowFloat);
+            float distanceToRowCenter = abs(rowFloat - (rowIndex));
+            // return float4(distanceToRowCenter, 0,0,1);
+            bool isOnShadeTransition = distanceToRowCenter < _DitherScale && toonLevel>0;
+            // if (isOnShadeTransition) return float4(1,0,0,1);
+            float noise = RandomFromSeed(inputData.positionWS.xz, 0, texelHeight);
+            float addedNoise = 0;
+            if (isOnShadeTransition && noise > _DitherStrength) addedNoise = -texelHeight;
+            float4 color = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, lighting + addedNoise));
             float4 highlightColor = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, 1.0 - texelHeight * 0.5));
             float highlightStrength = smoothstep(0, 1.0, specular);
             if(toonLevel > 0) color.rgb += highlightColor.rgb *  mainLight.color * highlightStrength;
@@ -179,9 +215,10 @@ half4 GetFinalToonColor(Varyings input, InputData inputData, SurfaceData surface
     float toonLevel = min(NdotL, mainLight.shadowAttenuation);
     
     float4 toonColor;
-    if (usePalette) toonColor = GetPaletteBaseShadingColor(mainLight, toonLevel, input.uv,
+    if (usePalette) toonColor = GetPaletteBaseShadingColor(inputData, mainLight, toonLevel, input.uv,
         GetSpecularTerm(brdfData, input, mainLight, inputData.viewDirectionWS)*surfaceData.specular);
     else toonColor = GetBaseShadingColor(toonLevel, input.uv);
+    return toonColor;
     float3 bdrfLighting = LightingPhysicallyBased(brdfData, mainLight, input.normalWS, inputData.viewDirectionWS);
     float3 litColor = toonColor + bdrfLighting + _Brightness * .2;
     BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
