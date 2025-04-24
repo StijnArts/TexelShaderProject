@@ -266,7 +266,7 @@ void LitPassFragment(
     outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
     #endif
 
-    outColor = GetFinalToonColor(input.uv, input.normalWS, inputData, surfaceData, true);
+    outColor = GetFinalToonColor(input.uv, inputData.normalWS, inputData, surfaceData, true);
     // return;
     // outColor = Posterize4(outColor, _PosterizationStepCount);
     outColor.a = OutputAlpha(outColor.a, IsSurfaceTypeTransparent(surfaceData.alpha));

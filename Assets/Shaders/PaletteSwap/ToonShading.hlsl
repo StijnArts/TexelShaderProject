@@ -178,7 +178,7 @@ half4 GetFinalToonColor(float2 uv, float3 normalWS, InputData inputData, Surface
     Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
     float NdotL = dot(normalize(normalWS), normalize(mainLight.direction));
     float toonLevel = min(NdotL, mainLight.shadowAttenuation);
-    
+    // return mainLight.shadowAttenuation.xxxx;
     float4 toonColor;
     if (usePalette) toonColor = GetPaletteBaseShadingColor(mainLight, toonLevel, uv,
         GetSpecularTerm(brdfData, normalWS, mainLight, inputData.viewDirectionWS)*surfaceData.specular);
