@@ -137,11 +137,11 @@ float4 GetBaseShadingColor(float NdotL, float2 uv)
 float4 GetPaletteBaseShadingColor(Light mainLight, float toonLevel, float2 uv, half specular)
 {
     float4 col = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, uv);
-
+    float paletteLength = _TargetPaletteTex_TexelSize.w;
     [loop]
-    for (int i = 0; i < _PaletteLength; i++)
+    for (int i = 0; i < paletteLength; i++)
     {
-        if (i >= (int)_PaletteLength) return float4(0,1,0,1);
+        if (i >= (int)paletteLength) return float4(0,1,0,1);
 
         float texelWidth = _TargetPaletteTex_TexelSize.x;
         float u = (i + 0.5) * texelWidth;

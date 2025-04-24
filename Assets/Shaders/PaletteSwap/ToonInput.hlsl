@@ -61,7 +61,6 @@ TEXTURE2D(_TargetPaletteTex);
 float4 _TargetPaletteTex_TexelSize;
 SAMPLER(sampler_TargetPaletteTex);
 
-float _PaletteLength;
 float _Tolerance;
 float4 _PosterizationStepCount;
 float4 _LightPosterizationStepCount;

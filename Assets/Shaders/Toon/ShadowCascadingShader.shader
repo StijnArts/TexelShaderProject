@@ -84,8 +84,8 @@ Shader "Unlit/ShadowCascadingShader"
             HLSLPROGRAM
             #pragma target 2.0
 
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex LitPassVertex
+            #pragma fragment LitPassFragment
 
             // -------------------------------------
             // Material Keywords
@@ -142,9 +142,9 @@ Shader "Unlit/ShadowCascadingShader"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/DynamicScaling.hlsl"
-            #include "Assets/Shaders/Toon/ToonInput.hlsl"
+            #include "Assets/Shaders/PaletteSwap/ToonInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-            #include "Assets/Shaders/Toon/ToonShading.hlsl"
+            #include "Assets/Shaders/PaletteSwap/ToonShading.hlsl"
 
 struct Attributes
 {

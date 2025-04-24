@@ -2,34 +2,26 @@ Shader "Unlit/PaletteShadowCascadingShader"
 {
     Properties
     {
-        // Specular vs Metallic workflow
         _WorkflowMode("WorkflowMode", Float) = 0
 
         [MainTexture] _BaseMap("Albedo", 2D) = "white" {}
         _PaletteTex("Source Palette", 2D) = "white" {}
         _TargetPaletteTex("Target Palette", 2D) = "white" {}
-        _PaletteLength("Palette Length", Float) = 8
         _ColorOffset("Color Offset", Range(-1,0)) = -.5
         [HideInInspector]_Tolerance("Tolerance", Range(0, 1)) = 0.1
         [Toggle] _UseColor("Use Color instead? ", Float) = 0
         [MainColor] _BaseColor("Color", Color) = (1,1,1,1)
         [Header(Lighting)]
-        _LightingColorTint ("Light Tint Color", Color) = (1,1,1,1)
-        _Brightness("Brightness", Range(-1,1)) = 0
 
         _BumpScale("Scale", Float) = 1.0
         _BumpMap("Normal Map", 2D) = "bump" {}
-        _DetailNormalMapScale("Scale", Range(0.0, 2.0)) = 1.0
-        [Normal] _DetailNormalMap("Normal Map", 2D) = "bump" {}
-        _Parallax("Scale", Range(0.005, 0.08)) = 0.005
-        _ParallaxMap("Height Map", 2D) = "black" {}
 
         [Toggle] _DoHighlights("Do Highlights?", Float) = 1
         _Smoothness("Smoothness", Range(0,1)) = 0.2
         [HideInInspector]_HighlightColor ("   Highlight Color", Color) = (1,1,1,1)
         [HideInInspector]_HighlightSize ("   Highlight Smallness", Range(.5,1)) = .99
         //        _HighlightIntensity ("   Highlight Intensity", Range(0,1)) = 0
-        [Header(Shading Colors)]
+        [HideInInspector][Header(Shading Colors)]
         [HideInInspector]_FirstShadeColor ("First Shade", Color) = (1,1,1,1)
         [HideInInspector]_SecondShadeColor ("Second Shade", Color) = (.6,.6,.6,1)
         [HideInInspector]_ThirdShadeColor ("Third Shade", Color) = (.1,.1,.1,1)
@@ -305,4 +297,6 @@ Shader "Unlit/PaletteShadowCascadingShader"
             ENDHLSL
         }
     }
+
+CustomEditor "PaletteSwap"
 }

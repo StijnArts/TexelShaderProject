@@ -252,8 +252,9 @@ void LitPassFragment(
 #if defined(_DBUFFER)
     ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
 #endif
-    outColor = half4(inputData.normalWS, 1);
-    return;
+    // outColor = half4(inputData.normalWS, 1);
+    // outColor = half4(surfaceData.normalTS, 1);
+    // return;
     InitializeBakedGIData(input, inputData);
 
     half4 color = UniversalFragmentPBR(inputData, surfaceData);
@@ -262,6 +263,7 @@ void LitPassFragment(
 
     outColor = color;
     outColor = half4(inputData.normalWS, 1);
+    // return;
 #ifdef _WRITE_RENDERING_LAYERS
     uint renderingLayers = GetMeshRenderingLayer();
     outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
