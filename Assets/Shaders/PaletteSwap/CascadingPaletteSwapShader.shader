@@ -3,13 +3,15 @@ Shader "Unlit/PaletteShadowCascadingShader"
     Properties
     {
         // Specular vs Metallic workflow
-        [HideInInspector] _WorkflowMode("WorkflowMode", Float) = 0
+        _WorkflowMode("WorkflowMode", Float) = 0
 
         [MainTexture] _BaseMap("Albedo", 2D) = "white" {}
         _PaletteTex("Source Palette", 2D) = "white" {}
         _TargetPaletteTex("Target Palette", 2D) = "white" {}
         _PaletteLength("Palette Length", Float) = 8
-        _ColorOffset("Color Offset", Range(-1,1)) = 0
+        _ColorOffset("Color Offset", Range(-1,0)) = -.5
+        _DitherScale ("Dither Noise Scale", Range(0,100)) = 20.0
+        _DitherStrength ("Dither Strength", Float) = 0.05
         [HideInInspector]_Tolerance("Tolerance", Range(0, 1)) = 0.1
         [Toggle] _UseColor("Use Color instead? ", Float) = 0
         [MainColor] _BaseColor("Color", Color) = (1,1,1,1)

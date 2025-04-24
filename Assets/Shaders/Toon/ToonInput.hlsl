@@ -40,6 +40,8 @@ float _SecondShadeTransitionSoftness;
 bool _UseColor;
 bool _DoHighlights;
 float _ColorOffset;
+float _DitherScale;
+float _DitherStrength;
 float4 _Color;
 float4 _FirstShadeColor;
 float4 _SecondShadeColor;
