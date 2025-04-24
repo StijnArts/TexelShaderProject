@@ -194,26 +194,26 @@ half4 SampleMetallicSpecGloss(float2 uv, half albedoAlpha)
 {
     half4 specGloss;
 
-    #ifdef _METALLICSPECGLOSSMAP
+#ifdef _METALLICSPECGLOSSMAP
     specGloss = half4(SAMPLE_METALLICSPECULAR(uv));
     #ifdef _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-    specGloss.a = albedoAlpha * _Smoothness;
+        specGloss.a = albedoAlpha * _Smoothness;
     #else
-    specGloss.a *= _Smoothness;
+        specGloss.a *= _Smoothness;
     #endif
-    #else // _METALLICSPECGLOSSMAP
+#else // _METALLICSPECGLOSSMAP
     #if _SPECULAR_SETUP
-    specGloss.rgb = _SpecColor.rgb;
+        specGloss.rgb = _SpecColor.rgb;
     #else
-    specGloss.rgb = _Metallic.rrr;
+        specGloss.rgb = _Metallic.rrr;
     #endif
 
     #ifdef _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-    specGloss.a = albedoAlpha * _Smoothness;
+        specGloss.a = albedoAlpha * _Smoothness;
     #else
-    specGloss.a = _Smoothness;
+        specGloss.a = _Smoothness;
     #endif
-    #endif
+#endif
 
     return specGloss;
 }
@@ -319,12 +319,11 @@ inline void InitializeStandardLitSurfaceData(float2 uv, out SurfaceData outSurfa
     outSurfaceData.specular = specGloss.rgb;
 #else
     outSurfaceData.metallic = specGloss.r;
-    outSurfaceData.specular = 1;
+    outSurfaceData.specular = half3(0.0, 0.0, 0.0);
 #endif
 
-    outSurfaceData.smoothness = _Smoothness;
-    half4 n = SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, uv);
-    outSurfaceData.normalTS = UnpackNormalScale(n, _BumpScale);
+    outSurfaceData.smoothness = specGloss.a;
+    outSurfaceData.normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap), _BumpScale);
     outSurfaceData.occlusion = SampleOcclusion(uv);
     outSurfaceData.emission = SampleEmission(uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
 
@@ -341,7 +340,7 @@ inline void InitializeStandardLitSurfaceData(float2 uv, out SurfaceData outSurfa
     half detailMask = SAMPLE_TEXTURE2D(_DetailMask, sampler_DetailMask, uv).a;
     float2 detailUv = uv * _DetailAlbedoMap_ST.xy + _DetailAlbedoMap_ST.zw;
     outSurfaceData.albedo = ApplyDetailAlbedo(detailUv, outSurfaceData.albedo, detailMask);
-    // outSurfaceData.normalTS = ApplyDetailNormal(detailUv, outSurfaceData.normalTS, detailMask);
+    outSurfaceData.normalTS = ApplyDetailNormal(detailUv, outSurfaceData.normalTS, detailMask);
 #endif
 }
 
