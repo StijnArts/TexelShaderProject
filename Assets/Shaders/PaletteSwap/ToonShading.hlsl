@@ -1,4 +1,4 @@
-﻿#include "Assets/Shaders/Toon/ToonInput.hlsl"
+﻿#include "Assets/Shaders/PaletteSwap/ToonInput.hlsl"
 #include "Assets/Shaders/Texel/TexelFunctions.hlsl"
 
 

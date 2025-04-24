@@ -157,10 +157,10 @@ Shader "Unlit/PaletteShadowCascadingShader"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/DynamicScaling.hlsl"
-            #include "Assets/Shaders/Toon/ToonInput.hlsl"
+            #include "Assets/Shaders/PaletteSwap/ToonInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-            #include "Assets/Shaders/Toon/ToonShading.hlsl"
-            #include "Assets/Shaders/Toon/ToonLitForwardPass.hlsl"
+            #include "Assets/Shaders/PaletteSwap/ToonShading.hlsl"
+            #include "Assets/Shaders/PaletteSwap/ToonLitForwardPass.hlsl"
             #if defined(LOD_FADE_CROSSFADE)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
