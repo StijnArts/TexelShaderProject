@@ -86,9 +86,9 @@ void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData
     float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
     half3x3 tangentToWorld = half3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz);
 
-    // #if defined(_NORMALMAP)
+    #if defined(_NORMALMAP)
     inputData.tangentToWorld = tangentToWorld;
-    // #endif
+    #endif
     inputData.normalWS = TransformTangentToWorld(normalTS, tangentToWorld);
     #else
     inputData.normalWS = input.normalWS;
@@ -268,7 +268,7 @@ void LitPassFragment(
 
     outColor = GetFinalToonColor(input.uv, input.normalWS, inputData, surfaceData, true);
     // return;
-    outColor = Posterize4(outColor, _PosterizationStepCount);
+    // outColor = Posterize4(outColor, _PosterizationStepCount);
     outColor.a = OutputAlpha(outColor.a, IsSurfaceTypeTransparent(surfaceData.alpha));
 }
 #endif

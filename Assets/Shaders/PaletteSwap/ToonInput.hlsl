@@ -45,7 +45,6 @@ float4 _Color;
 float4 _FirstShadeColor;
 float4 _SecondShadeColor;
 float4 _ThirdShadeColor;
-float4 _LightingColorTint;
 float4 _HighlightColor;
 float4 _HighlightIntensity;
 float _ShadowBlendAmount;

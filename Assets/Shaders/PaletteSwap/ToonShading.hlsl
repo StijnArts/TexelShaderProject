@@ -168,6 +168,7 @@ float4 GetPaletteBaseShadingColor(Light mainLight, float toonLevel, float2 uv, h
 
 half4 GetFinalToonColor(float2 uv, float3 normalWS, InputData inputData, SurfaceData surfaceData, bool usePalette)
 {
+    // return half4(normalWS, 1);
     BRDFData brdfData;
     
     InitializeBRDFData(surfaceData, brdfData);
@@ -184,11 +185,14 @@ half4 GetFinalToonColor(float2 uv, float3 normalWS, InputData inputData, Surface
     else toonColor = GetBaseShadingColor(toonLevel, uv);
     // return toonColor;
     float3 bdrfLighting = LightingPhysicallyBased(brdfData, mainLight, normalWS, inputData.viewDirectionWS);
-    float3 litColor = toonColor + bdrfLighting + _Brightness * .2;
+    // return float4(bdrfLighting,1);
+    float3 litColor = toonColor + bdrfLighting;
+    
     BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
     float3 additionalLightsColor = GetAdditionalLights(inputData, surfaceData, shadowMask, aoFactor, brdfData, brdfDataClearCoat, normalWS, inputData.viewDirectionWS);
 
     float3 ambientLight = SampleSH(normalWS);
+    // return float4(ambientLight,1);
     if (_UseEmission > 0)
     {
         litColor += _EmissionColor.rgb * _EmissionIntensity;
@@ -198,7 +202,8 @@ half4 GetFinalToonColor(float2 uv, float3 normalWS, InputData inputData, Surface
     {
         litColor += CalculateCellSpecular(brdfData, normalWS, mainLight, inputData.viewDirectionWS, toonLevel);;
     }
-    litColor *= _LightingColorTint  + ambientLight;
+    // return float4(litColor.rgb, toonColor.a);
+    
     return float4(litColor.rgb, toonColor.a);
     
 }
