@@ -14,7 +14,7 @@ float4 GetMainLightToonFactor(float NdotL)
     return color;
 }
 
-half GetSpecularTerm(BRDFData brdfData, Varyings i, Light light, float3 viewDirection)
+half GetSpecularTerm(BRDFData brdfData, float3 normalWS, Light light, float3 viewDirection)
 {
     if (!_DoHighlights /*|| toonLevel < _FirstShade*/)
         return 0;
@@ -22,7 +22,7 @@ half GetSpecularTerm(BRDFData brdfData, Varyings i, Light light, float3 viewDire
     float3 lightDirectionWSFloat3 = float3(light.direction);
     float3 halfDir = SafeNormalize(lightDirectionWSFloat3 + float3(viewDirection));
 
-    float NoH = saturate(dot(float3(i.normalWS), halfDir));
+    float NoH = saturate(dot(float3(normalWS), halfDir));
     half LoH = half(saturate(dot(lightDirectionWSFloat3, halfDir)));
     float d = NoH * NoH * brdfData.roughness2MinusOne + 1.00001f;
 
@@ -31,11 +31,11 @@ half GetSpecularTerm(BRDFData brdfData, Varyings i, Light light, float3 viewDire
     return specularTerm;
 }
 
-float3 CalculateCellSpecular(BRDFData brdfData, Varyings i, Light light, float3 viewDirection, float toonLevel)
+float3 CalculateCellSpecular(BRDFData brdfData, float3 normalWS, Light light, float3 viewDirection, float toonLevel)
 {
     if (!_DoHighlights) return float3(0, 0, 0);
     float3 lightDirection = normalize(light.direction);
-    float3 normal = normalize(i.normalWS);
+    float3 normal = normalize(normalWS);
     viewDirection = normalize(viewDirection);
     float3 halfVector = normalize(lightDirection + viewDirection);
     
@@ -166,7 +166,7 @@ float4 GetPaletteBaseShadingColor(Light mainLight, float toonLevel, float2 uv, h
     return col;
 }
 
-half4 GetFinalToonColor(Varyings input, InputData inputData, SurfaceData surfaceData, bool usePalette)
+half4 GetFinalToonColor(float2 uv, float3 normalWS, InputData inputData, SurfaceData surfaceData, bool usePalette)
 {
     BRDFData brdfData;
     
@@ -175,19 +175,20 @@ half4 GetFinalToonColor(Varyings input, InputData inputData, SurfaceData surface
     AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
     uint meshRenderingLayers = GetMeshRenderingLayer();
     Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
-    float NdotL = dot(normalize(input.normalWS), normalize(mainLight.direction));
+    float NdotL = dot(normalize(normalWS), normalize(mainLight.direction));
     float toonLevel = min(NdotL, mainLight.shadowAttenuation);
     
     float4 toonColor;
-    if (usePalette) toonColor = GetPaletteBaseShadingColor(mainLight, toonLevel, input.uv,
-        GetSpecularTerm(brdfData, input, mainLight, inputData.viewDirectionWS)*surfaceData.specular);
-    else toonColor = GetBaseShadingColor(toonLevel, input.uv);
-    float3 bdrfLighting = LightingPhysicallyBased(brdfData, mainLight, input.normalWS, inputData.viewDirectionWS);
+    if (usePalette) toonColor = GetPaletteBaseShadingColor(mainLight, toonLevel, uv,
+        GetSpecularTerm(brdfData, normalWS, mainLight, inputData.viewDirectionWS)*surfaceData.specular);
+    else toonColor = GetBaseShadingColor(toonLevel, uv);
+    // return toonColor;
+    float3 bdrfLighting = LightingPhysicallyBased(brdfData, mainLight, normalWS, inputData.viewDirectionWS);
     float3 litColor = toonColor + bdrfLighting + _Brightness * .2;
     BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
-    float3 additionalLightsColor = GetAdditionalLights(inputData, surfaceData, shadowMask, aoFactor, brdfData, brdfDataClearCoat, input.normalWS, inputData.viewDirectionWS);
+    float3 additionalLightsColor = GetAdditionalLights(inputData, surfaceData, shadowMask, aoFactor, brdfData, brdfDataClearCoat, normalWS, inputData.viewDirectionWS);
 
-    float3 ambientLight = SampleSH(input.normalWS);
+    float3 ambientLight = SampleSH(normalWS);
     if (_UseEmission > 0)
     {
         litColor += _EmissionColor.rgb * _EmissionIntensity;
@@ -195,7 +196,7 @@ half4 GetFinalToonColor(Varyings input, InputData inputData, SurfaceData surface
     litColor += (usePalette? 0 : toonColor) +  additionalLightsColor;
     if (!usePalette)
     {
-        litColor += CalculateCellSpecular(brdfData, input, mainLight, inputData.viewDirectionWS, toonLevel);;
+        litColor += CalculateCellSpecular(brdfData, normalWS, mainLight, inputData.viewDirectionWS, toonLevel);;
     }
     litColor *= _LightingColorTint  + ambientLight;
     return float4(litColor.rgb, toonColor.a);

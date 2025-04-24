@@ -2,7 +2,6 @@
 #define UNIVERSAL_LIT_INPUT_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
@@ -85,7 +84,6 @@ float4 _LightPosterizationStepCount;
 // TEXTURE2D(_DepthNormalTexture);
 // SAMPLER(sampler_DepthNormalTexture);
 
-uniform float4 _BlitScaleBias;
 UNITY_TEXTURE_STREAMING_DEBUG_VARS;
 CBUFFER_END
 
@@ -182,66 +180,15 @@ TEXTURE2D(_DetailNormalMap);    SAMPLER(sampler_DetailNormalMap);
 TEXTURE2D(_MetallicGlossMap);   SAMPLER(sampler_MetallicGlossMap);
 TEXTURE2D(_SpecGlossMap);       SAMPLER(sampler_SpecGlossMap);
 TEXTURE2D(_ClearCoatMap);       SAMPLER(sampler_ClearCoatMap);
-
+#if (defined(_NORMALMAP) || (defined(_PARALLAXMAP) && !defined(REQUIRES_TANGENT_SPACE_VIEW_DIR_INTERPOLATOR))) || defined(_DETAIL)
+#define REQUIRES_WORLD_SPACE_TANGENT_INTERPOLATOR
+#endif
 #ifdef _SPECULAR_SETUP
     #define SAMPLE_METALLICSPECULAR(uv) SAMPLE_TEXTURE2D(_SpecGlossMap, sampler_SpecGlossMap, uv)
 #else
     #define SAMPLE_METALLICSPECULAR(uv) SAMPLE_TEXTURE2D(_MetallicGlossMap, sampler_MetallicGlossMap, uv)
 #endif
 
-struct Attributes
-{
-    float4 positionOS : POSITION;
-    float3 normalOS : NORMAL;
-    float4 tangentOS : TANGENT;
-    float2 texcoord : TEXCOORD0;
-    float2 staticLightmapUV : TEXCOORD1;
-    float2 dynamicLightmapUV : TEXCOORD2;
-    // uint vertexID : SV_VertexID;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
-};
-
-struct Varyings
-{
-    float2 uv : TEXCOORD0;
-
-    #if defined(REQUIRES_WORLD_SPACE_POS_INTERPOLATOR)
-    float3 positionWS : TEXCOORD1;
-    #endif
-
-    float3 normalWS : TEXCOORD2;
-    #if defined(REQUIRES_WORLD_SPACE_TANGENT_INTERPOLATOR)
-    half4 tangentWS                : TEXCOORD3;    // xyz: tangent, w: sign
-    #endif
-
-    #ifdef _ADDITIONAL_LIGHTS_VERTEX
-    half4 fogFactorAndVertexLight   : TEXCOORD5; // x: fogFactor, yzw: vertex light
-    #else
-    half fogFactor : TEXCOORD5;
-    #endif
-
-    #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-    float4 shadowCoord              : TEXCOORD6;
-    #endif
-
-    #if defined(REQUIRES_TANGENT_SPACE_VIEW_DIR_INTERPOLATOR)
-    half3 viewDirTS                : TEXCOORD7;
-    #endif
-
-    DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 8);
-    #ifdef DYNAMICLIGHTMAP_ON
-    float2  dynamicLightmapUV : TEXCOORD9; // Dynamic lightmap UVs
-    #endif
-
-    #ifdef USE_APV_PROBE_OCCLUSION
-    float4 probeOcclusion : TEXCOORD10;
-    #endif
-    // float4 edgePositionCS : TEXCOORD9;
-    float2 uvSS   : TEXCOORD4;
-    float4 positionCS : SV_POSITION;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
-    UNITY_VERTEX_OUTPUT_STEREO
-};
 
 half4 SampleMetallicSpecGloss(float2 uv, half albedoAlpha)
 {
@@ -376,7 +323,8 @@ inline void InitializeStandardLitSurfaceData(float2 uv, out SurfaceData outSurfa
 #endif
 
     outSurfaceData.smoothness = _Smoothness;
-    outSurfaceData.normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap), _BumpScale);
+    half4 n = SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, uv);
+    outSurfaceData.normalTS = UnpackNormalScale(n, _BumpScale);
     outSurfaceData.occlusion = SampleOcclusion(uv);
     outSurfaceData.emission = SampleEmission(uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
 
@@ -393,7 +341,7 @@ inline void InitializeStandardLitSurfaceData(float2 uv, out SurfaceData outSurfa
     half detailMask = SAMPLE_TEXTURE2D(_DetailMask, sampler_DetailMask, uv).a;
     float2 detailUv = uv * _DetailAlbedoMap_ST.xy + _DetailAlbedoMap_ST.zw;
     outSurfaceData.albedo = ApplyDetailAlbedo(detailUv, outSurfaceData.albedo, detailMask);
-    outSurfaceData.normalTS = ApplyDetailNormal(detailUv, outSurfaceData.normalTS, detailMask);
+    // outSurfaceData.normalTS = ApplyDetailNormal(detailUv, outSurfaceData.normalTS, detailMask);
 #endif
 }
 
