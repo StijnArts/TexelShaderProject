@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e8fd8611650682249a301e30323ac1be
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Content/Demo/Prefabs/Green Grass/Single
+    Billboard.prefab
+  uploadId: 745002

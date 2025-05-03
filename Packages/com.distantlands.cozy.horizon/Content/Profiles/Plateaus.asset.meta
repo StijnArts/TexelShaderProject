@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 85c8b833b00d76848b32831c9cedb465
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.horizon/Content/Profiles/Plateaus.asset
+  uploadId: 745002

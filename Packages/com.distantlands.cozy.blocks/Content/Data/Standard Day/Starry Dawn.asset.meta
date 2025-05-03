@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: eb7880dc3f7d0c144ab842248a07144d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.blocks/Content/Data/Standard Day/Starry
+    Dawn.asset
+  uploadId: 745002

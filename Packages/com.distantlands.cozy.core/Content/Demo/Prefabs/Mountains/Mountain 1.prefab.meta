@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e3ed7d53480140543be149682ec7df37
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Content/Demo/Prefabs/Mountains/Mountain
+    1.prefab
+  uploadId: 745002

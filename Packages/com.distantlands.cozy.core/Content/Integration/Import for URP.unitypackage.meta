@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3643c0d76ec153646b1203880bfb64ed
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Content/Integration/Import for URP.unitypackage
+  uploadId: 745002

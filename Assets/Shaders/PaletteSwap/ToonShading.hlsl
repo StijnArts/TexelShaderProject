@@ -146,19 +146,50 @@ float4 GetPaletteBaseShadingColor(Light mainLight, float toonLevel, float2 uv, h
         float texelWidth = _TargetPaletteTex_TexelSize.x;
         float u = (i + 0.5) * texelWidth;
 
+        // float4 srcCol = SAMPLE_TEXTURE2D(_PaletteTex, sampler_PaletteTex, float2(u, 0.5));
+        // if (all(abs(col.rgb - srcCol.rgb) < 0.001))
+        // {
+        //     float lighting = toonLevel + _ColorOffset;
+        //     float texelHeight = _TargetPaletteTex_TexelSize.y;
+        //
+        //     lighting = saturate((lighting + 1.0) * 0.5);
+        //     float4 color = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, lighting));
+        //     float4 highlightColor = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, 1.0 - texelHeight * 0.5));
+        //     float highlightStrength = smoothstep(0, 1.0, specular);
+        //     if(toonLevel > 0) color.rgb += highlightColor.rgb *  mainLight.color * highlightStrength;
+        //     color = saturate(color);
+        //
+        //     return color;
+        // }
         float4 srcCol = SAMPLE_TEXTURE2D(_PaletteTex, sampler_PaletteTex, float2(u, 0.5));
         if (all(abs(col.rgb - srcCol.rgb) < 0.001))
         {
             float lighting = toonLevel + _ColorOffset;
+            lighting = saturate((lighting + 1.0) * 0.5); // Normalize to [0,1]
+
             float texelHeight = _TargetPaletteTex_TexelSize.y;
 
-            lighting = saturate((lighting + 1.0) * 0.5);
-            float4 color = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, lighting));
+            // Find the position in texture space
+            float texelCount = 1.0 / texelHeight;
+            float texelIndex = lighting * (texelCount - 1);
+            float lowerIndex = floor(texelIndex);
+            float upperIndex = ceil(texelIndex);
+            float blendFactor = texelIndex - lowerIndex;
+
+            float2 lowerUV = float2(u, (lowerIndex + 0.5) * texelHeight);
+            float2 upperUV = float2(u, (upperIndex + 0.5) * texelHeight);
+
+            float4 colorLow = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, lowerUV);
+            float4 colorHigh = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, upperUV);
+            float4 color = lerp(colorLow, colorHigh, blendFactor);
+
+            // Specular highlight remains applied as before
             float4 highlightColor = SAMPLE_TEXTURE2D(_TargetPaletteTex, sampler_TargetPaletteTex, float2(u, 1.0 - texelHeight * 0.5));
             float highlightStrength = smoothstep(0, 1.0, specular);
-            if(toonLevel > 0) color.rgb += highlightColor.rgb *  mainLight.color * highlightStrength;
-            color = saturate(color);
+            if (toonLevel > 0)
+                color.rgb += highlightColor.rgb * mainLight.color * highlightStrength;
 
+            color = saturate(color);
             return color;
         }
     }

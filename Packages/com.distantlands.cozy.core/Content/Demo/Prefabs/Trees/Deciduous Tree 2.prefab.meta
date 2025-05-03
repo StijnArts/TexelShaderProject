@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7f740ba28b41d0e4da7f78e6dafac7e2
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Content/Demo/Prefabs/Trees/Deciduous
+    Tree 2.prefab
+  uploadId: 745002

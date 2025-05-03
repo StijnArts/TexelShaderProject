@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 09e6f390497794c498470be607f79c41
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 60072b568d64c40a485e0fc55012dc9f, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263898
+  packageName: River Modeler
+  packageVersion: 1.0.4
+  assetPath: Assets/WaterGeometryTools/Common/ShaderGraph/Subgraphs/Water Surface
+    Depth.shadersubgraph
+  uploadId: 731292

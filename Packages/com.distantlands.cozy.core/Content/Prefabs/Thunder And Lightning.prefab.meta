@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 94d052e37dff1ce498d1da48378a8e26
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Content/Prefabs/Thunder And Lightning.prefab
+  uploadId: 745002

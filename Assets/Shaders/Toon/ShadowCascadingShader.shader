@@ -84,8 +84,8 @@ Shader "Unlit/ShadowCascadingShader"
             HLSLPROGRAM
             #pragma target 2.0
 
-            #pragma vertex LitPassVertex
-            #pragma fragment LitPassFragment
+            #pragma vertex vert
+            #pragma fragment frag
 
             // -------------------------------------
             // Material Keywords

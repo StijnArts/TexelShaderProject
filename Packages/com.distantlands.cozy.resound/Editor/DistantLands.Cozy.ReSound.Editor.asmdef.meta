@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4afae4ae49ff5b84cade6062c336126d
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.resound/Editor/DistantLands.Cozy.ReSound.Editor.asmdef
+  uploadId: 745002

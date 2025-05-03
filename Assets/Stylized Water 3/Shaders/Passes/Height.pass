@@ -1,0 +1,40 @@
+﻿Pass
+{
+    Name "Height"
+    Tags { "LightMode" = "WaterHeight" }
+    
+    ZWrite On
+    //ColorMask RG
+    Cull Off
+
+    HLSLPROGRAM
+    %pragma_target%
+    %pragma_renderers%
+
+    #pragma multi_compile_instancing
+    #pragma instancing_options renderinglayer
+
+    #include_library "Libraries/URP.hlsl"
+    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+    //#include "Assets/Amazing Assets/Curved World/Shaders/Core/CurvedWorldTransform.cginc"
+
+    #pragma shader_feature_local _WAVES
+    %multi_compile dynamic effects%
+    #pragma multi_compile _ WATER_HEIGHT_PASS
+
+    //If set, the displacement effects are not calculated in the vertex shader, which would be a waste.
+    #define SHADERPASS_HEIGHT
+
+    #include_library "Libraries/Input.hlsl"
+    #include_library "Libraries/Common.hlsl"
+    #include_library "Libraries/Waves.hlsl"
+    #ifdef DYNAMIC_EFFECTS_ENABLED
+    #include_library "DynamicEffects/DynamicEffects.hlsl"
+    #endif
+    
+    #pragma vertex HeightPassVertex
+    #pragma fragment HeightFragment
+
+    #include_library "Passes/HeightPrePass.hlsl"
+    ENDHLSL
+}

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5dd6dddcbf75e9b47bb08b9732acfd5a
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.eclipse/Editor/DistantLands.Cozy.Eclipse.Editor.asmdef
+  uploadId: 745002

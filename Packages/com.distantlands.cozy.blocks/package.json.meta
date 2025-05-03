@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f806aa8ca6de2e744ab3d4ca8dd914fd
+PackageManifestImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.blocks/package.json
+  uploadId: 745002

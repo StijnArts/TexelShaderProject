@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: aed18d8d7c95454fbe355bc0b5acf2ea
+timeCreated: 1731573449
+AssetOrigin:
+  serializedVersion: 1
+  productId: 287769
+  packageName: Stylized Water 3
+  packageVersion: 3.0.5
+  assetPath: Assets/Stylized Water 3/Shaders/Passes/ForwardLit.pass
+  uploadId: 737768

@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: adbf29e61935439ca8dec2e4392ac0b6
+timeCreated: 1731573779
+AssetOrigin:
+  serializedVersion: 1
+  productId: 287769
+  packageName: Stylized Water 3
+  packageVersion: 3.0.5
+  assetPath: Assets/Stylized Water 3/Shaders/Passes/Depth.pass
+  uploadId: 737768

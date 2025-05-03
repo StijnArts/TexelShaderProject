@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 57f4be7dd3f38d9488de9edd8590f045
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Runtime/Shaders/Amplify Functions/Chunked
+    Functions/StylizedTerrainPaint.asset
+  uploadId: 745002

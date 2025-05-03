@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d09c42dafcbf3c243a6a5f38bc782820
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.core/Content/Demo/Materials/Satellite
+    1.mat
+  uploadId: 745002

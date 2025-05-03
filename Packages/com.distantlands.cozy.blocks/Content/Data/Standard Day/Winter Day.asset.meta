@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 4ee222725f52f6c4193dc4fd7a72de8b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.blocks/Content/Data/Standard Day/Winter
+    Day.asset
+  uploadId: 745002

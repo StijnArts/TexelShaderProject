@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 130c933cd118a424f8c3a34e86de9280
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 278975
+  packageName: 'COZY Pro: Stylized Weather Bundle'
+  packageVersion: 3.6.2
+  assetPath: Packages/com.distantlands.cozy.habits/README.md
+  uploadId: 745002
